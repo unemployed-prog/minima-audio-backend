@@ -1,11 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const yts = require('yt-search');
-const ytdl = require('@distube/ytdl-core');
+
+// CORREZIONE: Gestisce correttamente l'importazione CommonJS di ytdl-core
+let ytdl = require('@distube/ytdl-core');
+if (ytdl.default) ytdl = ytdl.default;
+
 const axios = require('axios');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
 app.use(cors());
 app.use(express.json());
