@@ -1,12 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const yts = require('yt-search');
-
-// CORREZIONE: Gestisce correttamente l'importazione CommonJS di ytdl-core
-let ytdl = require('@distube/ytdl-core');
-if (ytdl.default) ytdl = ytdl.default;
-
 const axios = require('axios');
+
+// IMPORTAZIONE ULTRA-ROBUSTA PER EVITARE "ytdl is not a function"
+const ytdlModule = require('@distube/ytdl-core');
+const ytdl = typeof ytdlModule === 'function' ? ytdlModule : (ytdlModule.default || ytdlModule);
 
 const app = express();
 const PORT = process.env.PORT || 10000;
