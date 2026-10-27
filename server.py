@@ -19,14 +19,16 @@ def search():
         return jsonify({'error': 'Query mancante'}), 400
 
     try:
-        if platform == 'youtube':
-            search_query = f"ytsearch15:{query}"
-        else:
-            search_query = f"ytsearch15:{query} audio"
+        search_query = f"ytsearch15:{query}" if platform == 'youtube' else f"ytsearch15:{query} audio"
         
         ydl_opts = {
             'extract_flat': True,
             'skip_download': True,
+            'extractor_args': {
+                'youtube': {
+                    'player_client': ['android', 'web']
+                }
+            }
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -79,6 +81,11 @@ def stream():
         ydl_opts = {
             'format': 'bestaudio/best',
             'quiet': True,
+            'extractor_args': {
+                'youtube': {
+                    'player_client': ['android', 'web']
+                }
+            }
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -121,6 +128,11 @@ def download():
         ydl_opts = {
             'format': 'bestaudio/best',
             'quiet': True,
+            'extractor_args': {
+                'youtube': {
+                    'player_client': ['android', 'web']
+                }
+            }
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
